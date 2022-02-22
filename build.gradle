@@ -13,8 +13,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.amazonaws:aws-java-sdk-core:1.11.880'
-    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.11.880'
+    compile 'com.amazonaws:aws-java-sdk-core:1.11.880'
+    compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.880'
+    compile "org.apache.groovy:groovy:4.0.0"
+    compile "org.apache.groovy:groovy-sql:4.0.0"
+    compile "org.apache.groovy:groovy-templates:4.0.0"
+    compile "org.apache.groovy:groovy-json:4.0.0"
+
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
 

@@ -17,7 +17,7 @@ public class DynamoDbConnection implements Connection {
     public static final String REGION = "region";
     public static final String DEFAULT_REGION = "us-west-1";
 
-    private final AmazonDynamoDB dynamoDB;
+    public final AmazonDynamoDB dynamoDB;
 
     public DynamoDbConnection(String url, Properties props ) {
 
@@ -39,7 +39,7 @@ public class DynamoDbConnection implements Connection {
 
     @Override
     public Statement createStatement() throws SQLException {
-        return null;
+        return new DynamoDbStatement( this );
     }
 
     @Override
@@ -134,7 +134,7 @@ public class DynamoDbConnection implements Connection {
 
     @Override
     public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
-        return null;
+        return new DynamoDbStatement( this );
     }
 
     @Override
@@ -189,7 +189,7 @@ public class DynamoDbConnection implements Connection {
 
     @Override
     public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability) throws SQLException {
-        return null;
+        return new DynamoDbStatement( this );
     }
 
     @Override

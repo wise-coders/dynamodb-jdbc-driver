@@ -1,18 +1,44 @@
 package com.wisecoders.dbschema.dynamodb;
 
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
+
 import java.sql.*;
 
 public class DynamoDbStatement implements Statement {
 
     private final DynamoDbConnection connection;
+    private String query;
 
     public DynamoDbStatement( DynamoDbConnection connection ){
         this.connection = connection;
     }
 
+
     @Override
     public ResultSet executeQuery(String sql) throws SQLException {
+        this.query = sql;
         return null;
+    }
+
+    @Override
+    public boolean execute(String sql) throws SQLException {
+        this.query = sql;
+        run();
+        return true;
+    }
+
+    private void run(){
+        final Binding binding = new Binding();
+        binding.setVariable("db", new DynamoDbWrapper( connection.dynamoDB ));
+        try {
+            final GroovyShell shell = new GroovyShell( binding, GroovyConfig.CONFIG );
+            final Script script = shell.parse( query );
+            script.run();
+        } catch ( Exception ex ){
+            System.out.println( ex );
+        }
     }
 
     @Override
@@ -80,10 +106,6 @@ public class DynamoDbStatement implements Statement {
 
     }
 
-    @Override
-    public boolean execute(String sql) throws SQLException {
-        return false;
-    }
 
     @Override
     public ResultSet getResultSet() throws SQLException {

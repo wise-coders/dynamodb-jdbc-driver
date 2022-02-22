@@ -18,14 +18,9 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class CreateTable {
-    private final AmazonDynamoDB amazonDynamoDB;
 
-    public void createTable(String json) throws JsonProcessingException, IOException {
+    public CreateTableRequest getTableRequest( String json ) throws JsonProcessingException, IOException{
         Table table = readTable(json);
-        amazonDynamoDB.createTable(getTableRequest(table));
-    }
-
-    private CreateTableRequest getTableRequest(Table table) {
         return new CreateTableRequest()
                 .withTableName(table.getTableName())
                 .withKeySchema(toKeySchemaElement(table.getKeySchema()))
